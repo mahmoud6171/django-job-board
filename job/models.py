@@ -1,6 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-
+from django.contrib.auth.models import User
 
 def image_upload(instance, filname):
     _, extention = filname.split('.')
@@ -12,6 +12,7 @@ class Job(models.Model):
         ('Part Time','Part Time'),
         ('Full Time','Full Time'),
     )
+    owner = models.ForeignKey(User , related_name='job_owner', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     job_type = models.CharField(max_length=50, choices = JOB_TYPE)
     description = models.TextField(max_length=1000, null= True)
@@ -26,7 +27,6 @@ class Job(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-
         return super(Job,self).save(*args, **kwargs)
 
 

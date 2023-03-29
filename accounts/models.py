@@ -24,3 +24,6 @@ def create_user_profile(sender, instance, created, **kwargs):
     
 class City(models.Model):
     city = models.CharField(max_length=30)
+    
+    def __str__(self):
+        return self.city
